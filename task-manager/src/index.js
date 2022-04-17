@@ -21,14 +21,14 @@ const e = require('express');
 const Task = require('./models/task');
 const User = require('./models/user');
 
-const test = async() => {
-    // const task = await Task.findById('625c0334837a5621b03228d2')
-    // await task.populate('owner').execPopulate()
-    // console.log(task.owner)
+// const test = async() => {
+//     // const task = await Task.findById('625c0334837a5621b03228d2')
+//     // await task.populate('owner').execPopulate()
+//     // console.log(task.owner)
 
-    const user = await User.findById('625bff4cd0ccd50ff00d9791')
-    await user.populate('tasks').execPopulate()
-    console.log(user.tasks)
-}
+//     const user = await User.findById('625bff4cd0ccd50ff00d9791')
+//     await user.populate('tasks').execPopulate()
+//     console.log(user.tasks)
+// }
 
-test();
+// test();
