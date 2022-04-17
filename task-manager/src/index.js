@@ -16,14 +16,19 @@ app.listen(port, () => {
 })
 
 
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const e = require('express');
+const Task = require('./models/task');
+const User = require('./models/user');
 
 const test = async() => {
-    const secret = 'thisismynewcourse'
-    const token = jwt.sign({ _id: 'Shivam23' }, secret, { expiresIn: '0 seconds' })
-    console.log(token)
+    // const task = await Task.findById('625c0334837a5621b03228d2')
+    // await task.populate('owner').execPopulate()
+    // console.log(task.owner)
 
-    console.log(jwt.verify(token, secret))
+    const user = await User.findById('625bff4cd0ccd50ff00d9791')
+    await user.populate('tasks').execPopulate()
+    console.log(user.tasks)
 }
 
 test();

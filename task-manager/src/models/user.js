@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -37,9 +38,42 @@ const userSchema = new mongoose.Schema({
         validate(value) {
             if (value < 0) { throw new Error('Invalid') }
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 })
 
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
+// instance method
+// userSchema.methods.getPublicProfile = function() {
+userSchema.methods.toJSON = function() {
+    const user = this
+    let userObject = user.toObject()
+    delete userObject.tokens
+    delete userObject.password
+    return userObject
+}
+
+// instance method
+userSchema.methods.generateAuthToken = async function() {
+    const user = this
+    const token = jwt.sign({ _id: user._id.toString() }, 'secret12345') // used user.email as a secret
+    user.tokens = user.tokens.concat({ token })
+    await user.save()
+    return token
+}
+
+
+// model method
 userSchema.statics.findByCredentials = async(email, password) => {
     const user = await User.findOne({ email })
 
