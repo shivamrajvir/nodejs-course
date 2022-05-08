@@ -11,9 +11,9 @@ router.post('/users', async(req, res) => {
     const user = new User(req.body)
 
     try {
-        const data = await user.save()
+        await user.save()
         const token = await user.generateAuthToken(req.body.email)
-        console.log('saved', data)
+            // sendWelcomeEmail(user.email, user.name)
         res.send({ user, token })
     } catch (error) {
         console.error(error)
@@ -122,6 +122,7 @@ router.put('/user', auth, async(req, res) => {
             //     new: true,
             //     runValidators: true
             // })
+        console.log(req.user)
         res.send(req.user)
     } catch (error) {
         console.error(err)
@@ -129,7 +130,7 @@ router.put('/user', auth, async(req, res) => {
     }
 })
 
-router.delete('/user/', auth, async(req, res) => {
+router.delete('/user', auth, async(req, res) => {
     try {
         // const user = await User.findByIdAndDelete(req.user._id)
         // console.log(user)
@@ -147,7 +148,6 @@ const upload = multer({
         fileSize: 1000000 // size in bytes 
     },
     fileFilter(req, file, callback) {
-        console.log(file)
         if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png)$/)) {
             callback(new Error('Please upload images with jpg, png format'))
         }

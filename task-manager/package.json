@@ -6,7 +6,11 @@
     "scripts": {
         "dev": "env-cmd -f ./config/dev.env nodemon src/index.js",
         "start": "node src/index.js",
+        "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
         "mongodbServer": "C:/Users/'Shivam Rajvir'/mongodb/bin/mongod.exe --dbpath=C:/Users/'Shivam Rajvir'/mongodb-data"
+    },
+    "jest": {
+        "testEnvironment": "node"
     },
     "keywords": [],
     "author": "",
@@ -23,6 +27,8 @@
     },
     "devDependencies": {
         "env-cmd": "^10.1.0",
-        "nodemon": "^1.18.9"
+        "jest": "^23.6.0",
+        "nodemon": "^1.18.9",
+        "supertest": "^3.4.1"
     }
 }
